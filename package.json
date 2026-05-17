@@ -40,9 +40,6 @@
   "files": [
     "dist"
   ],
-  "workspaces": [
-    "playground"
-  ],
   "scripts": {
     "prepack": "nuxt-module-build build",
     "build": "nuxt-module-build build",
