@@ -1,84 +1,145 @@
-<!--
-Get your module up and running quickly.
+# nuxt-przelewy24
 
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: my-module
-- Description: My new Nuxt module
--->
+[![npm version](https://img.shields.io/npm/v/nuxt-przelewy24/latest.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmjs.com/package/nuxt-przelewy24)
+[![ci](https://github.com/zagi/nuxt-przelewy24/actions/workflows/ci.yml/badge.svg)](https://github.com/zagi/nuxt-przelewy24/actions/workflows/ci.yml)
+[![License](https://img.shields.io/npm/l/nuxt-przelewy24.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmjs.com/package/nuxt-przelewy24)
+[![Nuxt](https://img.shields.io/badge/Nuxt-020420?logo=nuxt)](https://nuxt.com)
 
-# My Module
+Nuxt 4 module for **Przelewy24 (P24)** payments. Wraps [`przelewy24-ts-sdk`](https://github.com/zagi/przelewy24-ts-sdk) with runtime config, a server-only `useP24()` composable, and an automatic webhook handler.
 
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![License][license-src]][license-href]
-[![Nuxt][nuxt-src]][nuxt-href]
-
-My new Nuxt module for doing amazing things.
-
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/my-module?file=playground%2Fapp.vue) -->
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
-
-## Features
-
-<!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
-
-## Quick Setup
-
-Install the module to your Nuxt application with one command:
+## Install
 
 ```bash
-npx nuxt module add my-module
+pnpm add nuxt-przelewy24 przelewy24-ts-sdk
 ```
 
-That's it! You can now use My Module in your Nuxt app ✨
+Add to `nuxt.config.ts`:
 
+```ts
+export default defineNuxtConfig({
+  modules: ['nuxt-przelewy24'],
+  p24: {
+    merchantId: Number(process.env.P24_MERCHANT_ID),
+    apiKey: process.env.P24_API_KEY!,
+    crcKey: process.env.P24_CRC_KEY!,
+    environment: 'sandbox', // or 'production'
+  },
+})
+```
 
-## Contribution
+All options also accept `runtimeConfig.p24.*` overrides, so you can keep secrets out of source and inject them via `NUXT_P24_API_KEY`, `NUXT_P24_CRC_KEY`, etc.
 
-<details>
-  <summary>Local development</summary>
-  
-  ```bash
-  # Install dependencies
-  npm install
-  
-  # Generate type stubs
-  npm run dev:prepare
-  
-  # Develop with the playground
-  npm run dev
-  
-  # Build the playground
-  npm run dev:build
-  
-  # Run ESLint
-  npm run lint
-  
-  # Run Vitest
-  npm run test
-  npm run test:watch
-  
-  # Release new version
-  npm run release
-  ```
+### Options
 
-</details>
+| Option        | Type                          | Default                | Description                                          |
+| ------------- | ----------------------------- | ---------------------- | ---------------------------------------------------- |
+| `merchantId`  | `number`                      | `0`                    | P24 merchant id.                                     |
+| `posId`       | `number`                      | `merchantId`           | POS id (defaults to merchant id).                    |
+| `apiKey`      | `string`                      | `''`                   | API key (HTTP Basic auth password).                  |
+| `crcKey`      | `string`                      | `''`                   | CRC key used to sign requests and verify webhooks.   |
+| `environment` | `'sandbox'` \| `'production'` | `'sandbox'`            | Switches base URL.                                   |
+| `webhookPath` | `string`                      | `'/api/p24/webhook'`   | Path the module registers as the notification URL.  |
 
+## Usage — `useP24()`
 
-<!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/my-module/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/my-module
+`useP24()` is auto-imported in your Nitro server code and returns a memoized `P24Client`.
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npm.chart.dev/my-module
+```ts
+// server/api/checkout.post.ts
+export default defineEventHandler(async (event) => {
+  const body = await readBody<{ amount: number, email: string }>(event)
+  const p24 = useP24()
+  const origin = getRequestURL(event).origin
 
-[license-src]: https://img.shields.io/npm/l/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/my-module
+  const { redirectUrl } = await p24.registerTransaction({
+    sessionId: crypto.randomUUID(),
+    amount: body.amount,
+    currency: 'PLN',
+    description: 'Order #42',
+    email: body.email,
+    urlReturn: `${origin}/return`,
+    urlStatus: `${origin}/api/p24/webhook`, // matches `webhookPath`
+  })
 
-[nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt
-[nuxt-href]: https://nuxt.com
+  return { redirectUrl }
+})
+```
+
+Verifying the final status and triggering a refund:
+
+```ts
+// server/api/return.get.ts
+export default defineEventHandler(async (event) => {
+  const { sessionId, amount, orderId } = getQuery(event)
+  const p24 = useP24()
+  await p24.verifyTransaction({
+    sessionId: String(sessionId),
+    amount: Number(amount),
+    currency: 'PLN',
+    orderId: Number(orderId),
+  })
+  return { ok: true }
+})
+```
+
+```ts
+const p24 = useP24()
+await p24.refund({
+  requestId: crypto.randomUUID(),
+  refunds: [{ sessionId: 'order-1', amount: 1099 }],
+})
+```
+
+The composable is **server-only**. Never import it in a Vue component — it would leak your `apiKey` and `crcKey` into the client bundle.
+
+## Webhook handler
+
+The module registers a POST handler at `webhookPath` (default `/api/p24/webhook`) that:
+
+1. Reads the JSON body.
+2. Calls `verifyWebhook` from `przelewy24-ts-sdk/webhooks` to validate the SHA-384 signature.
+3. Returns `{ received: true }` on success, `400` on signature mismatch.
+
+To run your own logic after verification, attach a callback in a Nitro plugin:
+
+```ts
+// server/plugins/p24.ts
+import type { WebhookPayload } from 'przelewy24-ts-sdk'
+
+export default defineNitroPlugin((nitro) => {
+  nitro.hooks.hook('request', (event) => {
+    event.context.$p24 = {
+      onNotification: async (payload: WebhookPayload) => {
+        // Mark the order paid, send a receipt, kick off fulfilment...
+        const p24 = useP24()
+        await p24.verifyTransaction({
+          sessionId: payload.sessionId,
+          amount: payload.amount,
+          currency: payload.currency,
+          orderId: payload.orderId,
+        })
+      },
+    }
+  })
+})
+```
+
+If you need full control, set `webhookPath` to a path you implement yourself and skip the built-in handler.
+
+## Related
+
+For the full client API (`registerTransaction`, `verifyTransaction`, `refund`, `testAccess`, `verifyWebhook`, error classes, types), see [`przelewy24-ts-sdk`](https://github.com/zagi/przelewy24-ts-sdk).
+
+## Contributing
+
+```bash
+pnpm install
+pnpm dev:prepare
+pnpm dev          # run playground
+pnpm test
+pnpm build
+```
+
+## License
+
+MIT © 2026 Michał Zagalski
