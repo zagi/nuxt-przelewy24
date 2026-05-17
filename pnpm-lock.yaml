@@ -15,8 +15,8 @@ importers:
         specifier: ^6.1.4
         version: 6.1.7
       przelewy24-ts-sdk:
-        specifier: file:../przelewy24-ts-sdk
-        version: file:../przelewy24-ts-sdk
+        specifier: github:zagi/przelewy24-ts-sdk
+        version: https://codeload.github.com/zagi/przelewy24-ts-sdk/tar.gz/01ba8ab211f8dc76c9bf9027f1b0e62e9488eca2
     devDependencies:
       '@nuxt/devtools':
         specifier: ^3.2.4
@@ -3770,8 +3770,9 @@ packages:
   proper-lockfile@4.1.2:
     resolution: {integrity: sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA==}
 
-  przelewy24-ts-sdk@file:../przelewy24-ts-sdk:
-    resolution: {directory: ../przelewy24-ts-sdk, type: directory}
+  przelewy24-ts-sdk@https://codeload.github.com/zagi/przelewy24-ts-sdk/tar.gz/01ba8ab211f8dc76c9bf9027f1b0e62e9488eca2:
+    resolution: {tarball: https://codeload.github.com/zagi/przelewy24-ts-sdk/tar.gz/01ba8ab211f8dc76c9bf9027f1b0e62e9488eca2}
+    version: 0.0.0
     engines: {node: '>=20.11'}
 
   punycode@2.3.1:
@@ -8544,7 +8545,7 @@ snapshots:
       retry: 0.12.0
       signal-exit: 3.0.7
 
-  przelewy24-ts-sdk@file:../przelewy24-ts-sdk: {}
+  przelewy24-ts-sdk@https://codeload.github.com/zagi/przelewy24-ts-sdk/tar.gz/01ba8ab211f8dc76c9bf9027f1b0e62e9488eca2: {}
 
   punycode@2.3.1: {}
 
