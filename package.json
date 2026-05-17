@@ -1,7 +1,7 @@
 {
-  "name": "nuxt-przelewy24",
-  "version": "0.0.0",
-  "description": "Nuxt 4 module for Przelewy24 (P24) payments — wraps przelewy24-ts-sdk with server routes, runtime config, and auto-imported composables.",
+  "name": "@zagi_14/nuxt-przelewy24",
+  "version": "0.1.0",
+  "description": "Nuxt 4 module for Przelewy24 (P24) payments — wraps @zagi_14/przelewy24-ts-sdk with server routes, runtime config, and auto-imported composables.",
   "keywords": [
     "nuxt",
     "nuxt-module",
@@ -57,7 +57,7 @@
   "dependencies": {
     "@nuxt/kit": "^4.4.5",
     "defu": "^6.1.4",
-    "przelewy24-ts-sdk": "github:zagi/przelewy24-ts-sdk"
+    "@zagi_14/przelewy24-ts-sdk": "^0.1.0"
   },
   "peerDependencies": {
     "nuxt": "^4.0.0"

@@ -11,12 +11,12 @@ importers:
       '@nuxt/kit':
         specifier: ^4.4.5
         version: 4.4.5(magicast@0.5.3)
+      '@zagi_14/przelewy24-ts-sdk':
+        specifier: ^0.1.0
+        version: 0.1.0
       defu:
         specifier: ^6.1.4
         version: 6.1.7
-      przelewy24-ts-sdk:
-        specifier: github:zagi/przelewy24-ts-sdk
-        version: https://codeload.github.com/zagi/przelewy24-ts-sdk/tar.gz/01ba8ab211f8dc76c9bf9027f1b0e62e9488eca2
     devDependencies:
       '@nuxt/devtools':
         specifier: ^3.2.4
@@ -2047,6 +2047,10 @@ packages:
   '@vue/shared@3.5.34':
     resolution: {integrity: sha512-24uqU4OIiX29ryC3MeWid/Xf2fa2EFRUVLb77nRhk+UrTVrh/XiGtFAFmJBAtBRbjwNdsPRP+jj/OL27Eg1NDA==}
 
+  '@zagi_14/przelewy24-ts-sdk@0.1.0':
+    resolution: {integrity: sha512-ramA1wLBlLJjj/2LmeY+zFQRFQpRBdX6fSByyHC1hBoTQsmcuVe/bHBZ58Ab/Ri3tNNAfaYootufMJ1NA6ZngQ==}
+    engines: {node: '>=20.11'}
+
   abbrev@3.0.1:
     resolution: {integrity: sha512-AO2ac6pjRB3SJmGJo+v5/aK6Omggp6fsLrs6wN9bd35ulu4cCwaAU9+7ZhXjeqHVkaHThLuzH0nZr0YpCDhygg==}
     engines: {node: ^18.17.0 || >=20.5.0}
@@ -2266,8 +2270,8 @@ packages:
   caniuse-api@3.0.0:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
 
-  caniuse-lite@1.0.30001792:
-    resolution: {integrity: sha512-hVLMUZFgR4JJ6ACt1uEESvQN1/dBVqPAKY0hgrV70eN3391K6juAfTjKZLKvOMsx8PxA7gsY1/tLMMTcfFLLpw==}
+  caniuse-lite@1.0.30001793:
+    resolution: {integrity: sha512-iwSsYWaCOoh26cV8NwNRViHlrfUvYsHDfRVcbtmw0Kg6PJIZZXwMkj1442FYLBGkeUf1juAsU3DTfxW579mrPA==}
 
   chai@6.2.2:
     resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
@@ -3769,11 +3773,6 @@ packages:
 
   proper-lockfile@4.1.2:
     resolution: {integrity: sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA==}
-
-  przelewy24-ts-sdk@https://codeload.github.com/zagi/przelewy24-ts-sdk/tar.gz/01ba8ab211f8dc76c9bf9027f1b0e62e9488eca2:
-    resolution: {tarball: https://codeload.github.com/zagi/przelewy24-ts-sdk/tar.gz/01ba8ab211f8dc76c9bf9027f1b0e62e9488eca2}
-    version: 0.0.0
-    engines: {node: '>=20.11'}
 
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
@@ -6566,6 +6565,8 @@ snapshots:
 
   '@vue/shared@3.5.34': {}
 
+  '@zagi_14/przelewy24-ts-sdk@0.1.0': {}
+
   abbrev@3.0.1: {}
 
   abort-controller@3.0.0:
@@ -6655,7 +6656,7 @@ snapshots:
   autoprefixer@10.5.0(postcss@8.5.14):
     dependencies:
       browserslist: 4.28.2
-      caniuse-lite: 1.0.30001792
+      caniuse-lite: 1.0.30001793
       fraction.js: 5.3.4
       picocolors: 1.1.1
       postcss: 8.5.14
@@ -6728,7 +6729,7 @@ snapshots:
   browserslist@4.28.2:
     dependencies:
       baseline-browser-mapping: 2.10.30
-      caniuse-lite: 1.0.30001792
+      caniuse-lite: 1.0.30001793
       electron-to-chromium: 1.5.357
       node-releases: 2.0.44
       update-browserslist-db: 1.2.3(browserslist@4.28.2)
@@ -6770,11 +6771,11 @@ snapshots:
   caniuse-api@3.0.0:
     dependencies:
       browserslist: 4.28.2
-      caniuse-lite: 1.0.30001792
+      caniuse-lite: 1.0.30001793
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
-  caniuse-lite@1.0.30001792: {}
+  caniuse-lite@1.0.30001793: {}
 
   chai@6.2.2: {}
 
@@ -8544,8 +8545,6 @@ snapshots:
       graceful-fs: 4.2.11
       retry: 0.12.0
       signal-exit: 3.0.7
-
-  przelewy24-ts-sdk@https://codeload.github.com/zagi/przelewy24-ts-sdk/tar.gz/01ba8ab211f8dc76c9bf9027f1b0e62e9488eca2: {}
 
   punycode@2.3.1: {}
 

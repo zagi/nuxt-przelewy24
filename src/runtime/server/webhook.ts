@@ -1,6 +1,6 @@
 import { createError, defineEventHandler, readBody } from 'h3'
-import { isP24Error, type WebhookPayload } from 'przelewy24-ts-sdk'
-import { verifyWebhook } from 'przelewy24-ts-sdk/webhooks'
+import { isP24Error, type WebhookPayload } from '@zagi_14/przelewy24-ts-sdk'
+import { verifyWebhook } from '@zagi_14/przelewy24-ts-sdk/webhooks'
 import { useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (event) => {

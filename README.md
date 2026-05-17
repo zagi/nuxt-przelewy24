@@ -1,23 +1,23 @@
-# nuxt-przelewy24
+# @zagi_14/nuxt-przelewy24
 
-[![npm version](https://img.shields.io/npm/v/nuxt-przelewy24/latest.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmjs.com/package/nuxt-przelewy24)
+[![npm version](https://img.shields.io/npm/v/@zagi_14/nuxt-przelewy24/latest.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmjs.com/package/@zagi_14/nuxt-przelewy24)
 [![ci](https://github.com/zagi/nuxt-przelewy24/actions/workflows/ci.yml/badge.svg)](https://github.com/zagi/nuxt-przelewy24/actions/workflows/ci.yml)
-[![License](https://img.shields.io/npm/l/nuxt-przelewy24.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmjs.com/package/nuxt-przelewy24)
+[![License](https://img.shields.io/npm/l/@zagi_14/nuxt-przelewy24.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmjs.com/package/@zagi_14/nuxt-przelewy24)
 [![Nuxt](https://img.shields.io/badge/Nuxt-020420?logo=nuxt)](https://nuxt.com)
 
-Nuxt 4 module for **Przelewy24 (P24)** payments. Wraps [`przelewy24-ts-sdk`](https://github.com/zagi/przelewy24-ts-sdk) with runtime config, a server-only `useP24()` composable, and an automatic webhook handler.
+Nuxt 4 module for **Przelewy24 (P24)** payments. Wraps [`@zagi_14/przelewy24-ts-sdk`](https://github.com/zagi/przelewy24-ts-sdk) with runtime config, a server-only `useP24()` composable, and an automatic webhook handler.
 
 ## Install
 
 ```bash
-pnpm add nuxt-przelewy24 przelewy24-ts-sdk
+pnpm add @zagi_14/nuxt-przelewy24 @zagi_14/przelewy24-ts-sdk
 ```
 
 Add to `nuxt.config.ts`:
 
 ```ts
 export default defineNuxtConfig({
-  modules: ['nuxt-przelewy24'],
+  modules: ['@zagi_14/nuxt-przelewy24'],
   p24: {
     merchantId: Number(process.env.P24_MERCHANT_ID),
     apiKey: process.env.P24_API_KEY!,
@@ -103,14 +103,14 @@ The composable is **server-only**. Never import it in a Vue component — it wou
 The module registers a POST handler at `webhookPath` (default `/api/p24/webhook`) that:
 
 1. Reads the JSON body.
-2. Calls `verifyWebhook` from `przelewy24-ts-sdk/webhooks` to validate the SHA-384 signature.
+2. Calls `verifyWebhook` from `@zagi_14/przelewy24-ts-sdk/webhooks` to validate the SHA-384 signature.
 3. Returns `{ received: true }` on success, `400` on signature mismatch.
 
 To run your own logic after verification, attach a callback in a Nitro plugin:
 
 ```ts
 // server/plugins/p24.ts
-import type { WebhookPayload } from 'przelewy24-ts-sdk'
+import type { WebhookPayload } from '@zagi_14/przelewy24-ts-sdk'
 
 export default defineNitroPlugin((nitro) => {
   nitro.hooks.hook('request', (event) => {
@@ -134,7 +134,7 @@ If you need full control, set `webhookPath` to a path you implement yourself and
 
 ## Related
 
-For the full client API (`registerTransaction`, `verifyTransaction`, `refund`, `testAccess`, `verifyWebhook`, error classes, types), see [`przelewy24-ts-sdk`](https://github.com/zagi/przelewy24-ts-sdk).
+For the full client API (`registerTransaction`, `verifyTransaction`, `refund`, `testAccess`, `verifyWebhook`, error classes, types), see [`@zagi_14/przelewy24-ts-sdk`](https://github.com/zagi/przelewy24-ts-sdk).
 
 ## Contributing
 

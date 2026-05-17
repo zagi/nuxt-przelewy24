@@ -1,6 +1,6 @@
 import { addImportsDir, addServerHandler, createResolver, defineNuxtModule } from '@nuxt/kit'
 import { defu } from 'defu'
-import type { P24Environment } from 'przelewy24-ts-sdk'
+import type { P24Environment } from '@zagi_14/przelewy24-ts-sdk'
 
 export interface ModuleOptions {
   merchantId: number

@@ -1,4 +1,4 @@
-import { createClient, type P24Client, type P24Environment } from 'przelewy24-ts-sdk'
+import { createClient, type P24Client, type P24Environment } from '@zagi_14/przelewy24-ts-sdk'
 import { useRuntimeConfig } from '#imports'
 
 let cached: P24Client | null = null

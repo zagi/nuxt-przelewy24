@@ -1,5 +1,2 @@
 packages:
   - playground
-
-onlyBuiltDependencies:
-  - przelewy24-ts-sdk
