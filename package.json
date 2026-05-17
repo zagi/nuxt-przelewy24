@@ -1,0 +1,80 @@
+{
+  "name": "nuxt-przelewy24",
+  "version": "0.0.0",
+  "description": "Nuxt 4 module for Przelewy24 (P24) payments — wraps przelewy24-ts-sdk with server routes, runtime config, and auto-imported composables.",
+  "keywords": [
+    "nuxt",
+    "nuxt-module",
+    "przelewy24",
+    "p24",
+    "payments"
+  ],
+  "license": "MIT",
+  "author": "Michał Zagalski",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zagi/nuxt-przelewy24.git"
+  },
+  "homepage": "https://github.com/zagi/nuxt-przelewy24#readme",
+  "bugs": {
+    "url": "https://github.com/zagi/nuxt-przelewy24/issues"
+  },
+  "engines": {
+    "node": ">=20.11"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
+    }
+  },
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "workspaces": [
+    "playground"
+  ],
+  "scripts": {
+    "prepack": "nuxt-module-build build",
+    "build": "nuxt-module-build build",
+    "dev": "npm run dev:prepare && nuxt dev playground",
+    "dev:build": "nuxt build playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground",
+    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^4.4.5",
+    "defu": "^6.1.4",
+    "przelewy24-ts-sdk": "file:../przelewy-ts-sdk"
+  },
+  "peerDependencies": {
+    "nuxt": "^4.0.0"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^3.2.4",
+    "@nuxt/eslint-config": "^1.15.2",
+    "@nuxt/module-builder": "^1.0.2",
+    "@nuxt/schema": "^4.4.5",
+    "@nuxt/test-utils": "^4.0.3",
+    "@types/node": "latest",
+    "changelogen": "^0.6.2",
+    "eslint": "^10.3.0",
+    "nuxt": "^4.4.5",
+    "typescript": "~6.0.3",
+    "vitest": "^4.1.5",
+    "vue-tsc": "^3.2.8"
+  }
+}
