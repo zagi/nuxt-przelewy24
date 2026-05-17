@@ -86,7 +86,13 @@ export default defineEventHandler(async (event) => {
 const p24 = useP24()
 await p24.refund({
   requestId: crypto.randomUUID(),
-  refunds: [{ sessionId: 'order-1', amount: 1099 }],
+  refundsUuid: crypto.randomUUID(),
+  refunds: [{
+    orderId: 12345,
+    sessionId: 'order-1',
+    amount: 1099,
+    description: 'Customer requested refund',
+  }],
 })
 ```
 
