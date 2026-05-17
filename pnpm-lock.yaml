@@ -15,8 +15,8 @@ importers:
         specifier: ^6.1.4
         version: 6.1.7
       przelewy24-ts-sdk:
-        specifier: file:../przelewy-ts-sdk
-        version: file:../przelewy-ts-sdk
+        specifier: file:../przelewy24-ts-sdk
+        version: file:../przelewy24-ts-sdk
     devDependencies:
       '@nuxt/devtools':
         specifier: ^3.2.4
@@ -3770,8 +3770,8 @@ packages:
   proper-lockfile@4.1.2:
     resolution: {integrity: sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA==}
 
-  przelewy24-ts-sdk@file:../przelewy-ts-sdk:
-    resolution: {directory: ../przelewy-ts-sdk, type: directory}
+  przelewy24-ts-sdk@file:../przelewy24-ts-sdk:
+    resolution: {directory: ../przelewy24-ts-sdk, type: directory}
     engines: {node: '>=20.11'}
 
   punycode@2.3.1:
@@ -8544,7 +8544,7 @@ snapshots:
       retry: 0.12.0
       signal-exit: 3.0.7
 
-  przelewy24-ts-sdk@file:../przelewy-ts-sdk: {}
+  przelewy24-ts-sdk@file:../przelewy24-ts-sdk: {}
 
   punycode@2.3.1: {}
 
